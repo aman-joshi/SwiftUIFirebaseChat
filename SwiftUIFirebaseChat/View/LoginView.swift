@@ -31,7 +31,11 @@ struct LoginView: View {
                     }
                     inputFields()
                     Button {
-                        viewModel.loginSignupUser()
+                        if isLoginMode {
+                            viewModel.logInUser(withEmail: email, password: password)
+                        }else {
+                            viewModel.createNewAccount(withEmail: email, password: password)
+                        }
                     } label: {
                         HStack {
                             Spacer()
@@ -42,11 +46,15 @@ struct LoginView: View {
                             Spacer()
                         }.background(Color.blue)
                     }
+                    Text(viewModel.loginStatusMessage).foregroundColor(Color.red)
+                        .frame(maxWidth:.infinity,alignment: .leading)
+                       
                 }.padding()
             }
             .navigationTitle( isLoginMode ? Constants.login : Constants.createAccount)
             .background(Color(.init(white: 0, alpha: 0.05)))
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     fileprivate func pickerView() -> some View {
