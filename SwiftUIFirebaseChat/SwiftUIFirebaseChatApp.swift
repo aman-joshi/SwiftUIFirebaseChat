@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct SwiftUIFirebaseChatApp: App {
+    private let loginVM = LoginViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView(viewModel: loginVM)
         }
     }
 }

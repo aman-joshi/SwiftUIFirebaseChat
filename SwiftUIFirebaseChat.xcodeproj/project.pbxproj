@@ -8,17 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		3F5DF81A282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5DF819282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift */; };
-		3F5DF81C282B451D005D12C5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5DF81B282B451D005D12C5 /* ContentView.swift */; };
+		3F5DF81C282B451D005D12C5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5DF81B282B451D005D12C5 /* LoginView.swift */; };
 		3F5DF81E282B451F005D12C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F5DF81D282B451F005D12C5 /* Assets.xcassets */; };
 		3F5DF821282B451F005D12C5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F5DF820282B451F005D12C5 /* Preview Assets.xcassets */; };
+		3F5DF82A282B4EED005D12C5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5DF829282B4EED005D12C5 /* LoginViewModel.swift */; };
+		3F5DF82D282B502D005D12C5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5DF82C282B502D005D12C5 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3F5DF816282B451D005D12C5 /* SwiftUIFirebaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIFirebaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F5DF819282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIFirebaseChatApp.swift; sourceTree = "<group>"; };
-		3F5DF81B282B451D005D12C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3F5DF81B282B451D005D12C5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3F5DF81D282B451F005D12C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F5DF820282B451F005D12C5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3F5DF829282B4EED005D12C5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		3F5DF82C282B502D005D12C5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +55,10 @@
 		3F5DF818282B451D005D12C5 /* SwiftUIFirebaseChat */ = {
 			isa = PBXGroup;
 			children = (
+				3F5DF82B282B500B005D12C5 /* Helper */,
+				3F5DF828282B4ED3005D12C5 /* View */,
+				3F5DF827282B4EC9005D12C5 /* ViewModel */,
 				3F5DF819282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift */,
-				3F5DF81B282B451D005D12C5 /* ContentView.swift */,
 				3F5DF81D282B451F005D12C5 /* Assets.xcassets */,
 				3F5DF81F282B451F005D12C5 /* Preview Content */,
 			);
@@ -65,6 +71,30 @@
 				3F5DF820282B451F005D12C5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3F5DF827282B4EC9005D12C5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F5DF829282B4EED005D12C5 /* LoginViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3F5DF828282B4ED3005D12C5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F5DF81B282B451D005D12C5 /* LoginView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F5DF82B282B500B005D12C5 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				3F5DF82C282B502D005D12C5 /* Constants.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +167,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F5DF81C282B451D005D12C5 /* ContentView.swift in Sources */,
+				3F5DF81C282B451D005D12C5 /* LoginView.swift in Sources */,
 				3F5DF81A282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift in Sources */,
+				3F5DF82A282B4EED005D12C5 /* LoginViewModel.swift in Sources */,
+				3F5DF82D282B502D005D12C5 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
