@@ -12,7 +12,7 @@ class LoginViewModel:ObservableObject {
     
     @Published var loginStatusMessage = ""
     
-    func createNewAccount(withEmail email:String,password:String) {
+    func createNewAccount(withEmail email:String,password:String,imageData:Data) {
         FirebaseManager.shared.createNewAccount(withEmail: email, password: password) { [weak self] user, err in
             if let err = err {
                 print("failed to create user - ",err.localizedDescription)
@@ -20,7 +20,7 @@ class LoginViewModel:ObservableObject {
                 return
             }
             self?.loginStatusMessage = "Successfully created user: \(user ?? "NIL")"
-            print("Successfully created user: \(user ?? "NIL")")
+            self?.saveImage(data: imageData)
         }
     }
     
@@ -33,6 +33,23 @@ class LoginViewModel:ObservableObject {
             }
             self?.loginStatusMessage = "Successfully Log In user: \(user ?? "NIL")"
             print("Successfully created user: \(user ?? "NIL")")
+        }
+    }
+    
+   private func saveImage(data:Data) {
+        FirebaseManager.shared.persistImageToStorage(withFileName: "", imageData: data) { [weak self] err in
+            if let _ = err {
+                self?.loginStatusMessage = "Failed to upload image"
+                return
+            }
+            
+            FirebaseManager.shared.downloadImageURL { [weak self] url, err in
+                if let _ = err {
+                    self?.loginStatusMessage = "Failed to download url"
+                    return
+                }
+                self?.loginStatusMessage = "Successfully downloaded Image url: \(url!.absoluteString)"
+            }
         }
     }
 }

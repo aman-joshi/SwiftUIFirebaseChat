@@ -12,21 +12,34 @@ struct LoginView: View {
     @State private var isLoginMode = false
     @State private var email = ""
     @State private var password = ""
+    @State private var isShowPhotoLibrary = false
+    @State private var image:UIImage?
     
     @ObservedObject var viewModel:LoginViewModel
     
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack {
+                VStack(spacing:16) {
                     pickerView()
                     if !isLoginMode {
                         Button {
-                            //
+                            self.isShowPhotoLibrary.toggle()
                         } label: {
-                            Image(systemName: "person.fill")
-                                .font(.system(size: 64))
-                                .padding()
+                            VStack {
+                                if let selectedImage = image {
+                                    Image(uiImage: selectedImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 128, height: 128)
+                                        .cornerRadius(64)
+                                }else {
+                                    Image(systemName: "person.fill")
+                                        .font(.system(size: 64))
+                                        .padding()
+                                        .foregroundColor(Color(.label))
+                                }
+                            }.overlay(Circle().stroke(Color(.label), lineWidth: 2.0))
                         }
                     }
                     inputFields()
@@ -34,7 +47,9 @@ struct LoginView: View {
                         if isLoginMode {
                             viewModel.logInUser(withEmail: email, password: password)
                         }else {
-                            viewModel.createNewAccount(withEmail: email, password: password)
+                            if let imageData = image?.jpegData(compressionQuality: 0.5) {
+                                viewModel.createNewAccount(withEmail: email, password: password,imageData: imageData)
+                            }
                         }
                     } label: {
                         HStack {
@@ -55,6 +70,9 @@ struct LoginView: View {
             .background(Color(.init(white: 0, alpha: 0.05)))
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .fullScreenCover(isPresented: $isShowPhotoLibrary, onDismiss: nil) {
+            ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
+        }
     }
     
     fileprivate func pickerView() -> some View {

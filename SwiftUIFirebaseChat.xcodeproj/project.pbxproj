@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F342C83282C9B3B00573569 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F342C82282C9B3B00573569 /* ImagePicker.swift */; };
 		3F5DF81A282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5DF819282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift */; };
 		3F5DF81C282B451D005D12C5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5DF81B282B451D005D12C5 /* LoginView.swift */; };
 		3F5DF81E282B451F005D12C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F5DF81D282B451F005D12C5 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F342C82282C9B3B00573569 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		3F5DF816282B451D005D12C5 /* SwiftUIFirebaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIFirebaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F5DF819282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIFirebaseChatApp.swift; sourceTree = "<group>"; };
 		3F5DF81B282B451D005D12C5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				3F5DF81B282B451D005D12C5 /* LoginView.swift */,
+				3F342C82282C9B3B00573569 /* ImagePicker.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 				3F5DF83D282B7D3A005D12C5 /* FirebaseManager.swift in Sources */,
 				3F5DF81C282B451D005D12C5 /* LoginView.swift in Sources */,
 				3F5DF81A282B451D005D12C5 /* SwiftUIFirebaseChatApp.swift in Sources */,
+				3F342C83282C9B3B00573569 /* ImagePicker.swift in Sources */,
 				3F5DF82A282B4EED005D12C5 /* LoginViewModel.swift in Sources */,
 				3F5DF82D282B502D005D12C5 /* Constants.swift in Sources */,
 			);
