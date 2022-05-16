@@ -8,18 +8,37 @@
 import Foundation
 import Firebase
 import FirebaseStorage
+import FirebaseFirestore
 
-class FirebaseManager:NSObject {
+typealias JSON = [String:Any]
+
+protocol FirebaseManagerProtocol {
+    func createNewAccount(withEmail email:String,password:String,completion:@escaping (String?,Error?) -> Void)
+    func logInUser(withEmail email:String,password:String,completion:@escaping (String?,Error?) -> Void)
+    func persistImageToStorage(withFileName fileName:String,imageData:Data,completion:@escaping (Error?) -> Void)
+    func downloadImageURL(completion:@escaping(URL?,Error?) -> Void)
+    func storeUser(info:JSON,completion:@escaping(Error?) -> Void)
+    func fetchCurrentUser() async throws -> User
+    var currentUserId: String? {get}
+    func signOut() throws
+}
+
+final class FirebaseManager:NSObject,FirebaseManagerProtocol,ObservableObject {
     
-    static let shared = FirebaseManager()
-    let auth:Auth
-    let storage:Storage
+    private let auth:Auth
+    private let storage:Storage
+    private let firestore:Firestore
     
-    private override init() {
+    override init() {
         FirebaseApp.configure()
         self.auth = Auth.auth()
         self.storage = Storage.storage()
+        self.firestore = Firestore.firestore()
         super.init()
+    }
+    
+    var currentUserId: String? {
+        auth.currentUser?.uid
     }
     
     func createNewAccount(withEmail email:String,password:String,completion:@escaping (String?,Error?) -> Void) {
@@ -35,7 +54,7 @@ class FirebaseManager:NSObject {
     }
     
     func persistImageToStorage(withFileName fileName:String,imageData:Data,completion:@escaping (Error?) -> Void) {
-        guard let uid = self.auth.currentUser?.uid else {return}
+        guard let uid = self.currentUserId else {return}
         let ref = storage.reference(withPath: uid)
         ref.putData(imageData, metadata: nil) { metaData, err in
             completion(err)
@@ -43,11 +62,44 @@ class FirebaseManager:NSObject {
     }
     
     func downloadImageURL(completion:@escaping(URL?,Error?) -> Void) {
-        guard let uid = self.auth.currentUser?.uid else {return}
+        guard let uid = self.currentUserId else {return}
         let ref = storage.reference(withPath: uid)
         ref.downloadURL { url, err in
             completion(url,err)
         }
     }
     
+    func storeUser(info:JSON,completion:@escaping(Error?) -> Void) {
+        guard let uid = self.currentUserId else {return}
+        let collectionRef = firestore.collection(FirebaseCollectionRef.users)
+        collectionRef.document(uid).setData(info) { err in
+            completion(err)
+        }
+    }
+    
+    func fetchCurrentUser() async throws -> User {
+        guard let uid = self.currentUserId else {return User() }
+        let documentRef = firestore.collection(FirebaseCollectionRef.users).document(uid)
+        do {
+            let document =  try await documentRef.getDocument()
+            if let json = document.data() {
+                do {
+                    let data = try json.toData()
+                    let user = try JSONDecoder().decode(User.self, from: data)
+                    return user
+                }
+            }
+        }catch {
+            throw error
+        }
+        return User()
+    }
+    
+    func signOut() throws {
+        do {
+            try self.auth.signOut()
+        }catch {
+            throw error
+        }
+    }
 }

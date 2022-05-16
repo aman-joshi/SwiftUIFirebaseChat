@@ -10,46 +10,72 @@ import SwiftUI
 
 class LoginViewModel:ObservableObject {
     
+    var firebaseManager:FirebaseManagerProtocol
     @Published var loginStatusMessage = ""
+    @Published var isLoggedIn = false
+    
+    init(firebaseManager:FirebaseManagerProtocol) {
+        self.firebaseManager = firebaseManager
+    }
     
     func createNewAccount(withEmail email:String,password:String,imageData:Data) {
-        FirebaseManager.shared.createNewAccount(withEmail: email, password: password) { [weak self] user, err in
-            if let err = err {
-                print("failed to create user - ",err.localizedDescription)
+        firebaseManager.createNewAccount(withEmail: email, password: password) { [weak self] user, err in
+            if let _ = err {
                 self?.loginStatusMessage = "Failed to create user"
                 return
             }
             self?.loginStatusMessage = "Successfully created user: \(user ?? "NIL")"
-            self?.saveImage(data: imageData)
+            self?.saveImage(data: imageData, email: email)
         }
     }
     
     func logInUser(withEmail email:String,password:String) {
-        FirebaseManager.shared.logInUser(withEmail: email, password: password) { [weak self] user, err in
-            if let err = err {
-                print("failed to create user - ",err.localizedDescription)
+        firebaseManager.logInUser(withEmail: email, password: password) { [weak self] user, err in
+            if let _ = err {
                 self?.loginStatusMessage = "Failed to Log In user"
                 return
             }
             self?.loginStatusMessage = "Successfully Log In user: \(user ?? "NIL")"
-            print("Successfully created user: \(user ?? "NIL")")
+            self?.isLoggedIn = true
         }
     }
     
-   private func saveImage(data:Data) {
-        FirebaseManager.shared.persistImageToStorage(withFileName: "", imageData: data) { [weak self] err in
+    private func saveImage(data:Data,email:String) {
+       firebaseManager.persistImageToStorage(withFileName: "", imageData: data) { [weak self] err in
             if let _ = err {
                 self?.loginStatusMessage = "Failed to upload image"
                 return
             }
             
-            FirebaseManager.shared.downloadImageURL { [weak self] url, err in
+           self?.firebaseManager.downloadImageURL { [weak self] url, err in
                 if let _ = err {
                     self?.loginStatusMessage = "Failed to download url"
                     return
                 }
                 self?.loginStatusMessage = "Successfully downloaded Image url: \(url!.absoluteString)"
+               if let userInfo = self?.createUserData(withEmail: email, profileImageUrl: url!) {
+                   self?.storeUser(info:userInfo)
+               }else {
+                   self?.loginStatusMessage = "Invalid data found can't save info"
+               }
             }
+        }
+    }
+    
+    func createUserData(withEmail email:String,profileImageUrl:URL) -> JSON? {
+        guard let uid = firebaseManager.currentUserId else {return nil}
+        let userInfo = ["email":email,"uid":uid,"profileImageUrl":profileImageUrl.absoluteString]
+        return userInfo
+    }
+    
+   private func storeUser(info:JSON) {
+        firebaseManager.storeUser(info: info) { [weak self] err in
+            if let _ = err {
+                self?.loginStatusMessage = "Failed to save user data"
+                return
+            }
+            self?.loginStatusMessage = "Successfully save user data: \(info)"
+            self?.isLoggedIn = true
         }
     }
 }

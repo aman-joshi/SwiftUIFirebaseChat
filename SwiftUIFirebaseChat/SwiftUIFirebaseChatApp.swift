@@ -9,15 +9,19 @@ import SwiftUI
 
 @main
 struct SwiftUIFirebaseChatApp: App {
-    private let loginVM = LoginViewModel()
+    private let firebaseManager:FirebaseManager
     
     init() {
-        _ = FirebaseManager.shared
+        firebaseManager = FirebaseManager()
     }
     
     var body: some Scene {
         WindowGroup {
-            LoginView(viewModel: loginVM)
+            if firebaseManager.currentUserId == nil {
+                LoginView(viewModel: LoginViewModel(firebaseManager:firebaseManager))
+            }else {
+                MessagesListHomeView(viewModel: MessageViewModel(firebaseManager: firebaseManager))
+            }
         }
     }
 }

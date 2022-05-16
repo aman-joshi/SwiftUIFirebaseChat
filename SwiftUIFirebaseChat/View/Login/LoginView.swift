@@ -18,6 +18,9 @@ struct LoginView: View {
     @ObservedObject var viewModel:LoginViewModel
     
     var body: some View {
+        if viewModel.isLoggedIn {
+            MessagesListHomeView(viewModel: MessageViewModel(firebaseManager: viewModel.firebaseManager))
+        }else {
         NavigationView {
             ScrollView {
                 VStack(spacing:16) {
@@ -37,7 +40,7 @@ struct LoginView: View {
                                     Image(systemName: "person.fill")
                                         .font(.system(size: 64))
                                         .padding()
-                                        .foregroundColor(Color(.label))
+                                        .foregroundColor(AppColor.black)
                                 }
                             }.overlay(Circle().stroke(Color(.label), lineWidth: 2.0))
                         }
@@ -55,13 +58,14 @@ struct LoginView: View {
                         HStack {
                             Spacer()
                             Text( isLoginMode ? Constants.login : Constants.createAccount)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppColor.white)
                                 .padding(.vertical,10)
-                                .font(.system(size: 14, weight: .semibold))
+                                .cornerRadius(5.0)
+                                .font(.system(size: AppFont.FontSize.small, weight: .semibold))
                             Spacer()
                         }.background(Color.blue)
                     }
-                    Text(viewModel.loginStatusMessage).foregroundColor(Color.red)
+                    Text(viewModel.loginStatusMessage).foregroundColor(AppColor.red)
                         .frame(maxWidth:.infinity,alignment: .leading)
                        
                 }.padding()
@@ -72,6 +76,7 @@ struct LoginView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .fullScreenCover(isPresented: $isShowPhotoLibrary, onDismiss: nil) {
             ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
+        }
         }
     }
     
@@ -92,12 +97,5 @@ struct LoginView: View {
             
         }.padding(12)
             .background(Color.white)
-    }
-    
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView(viewModel: LoginViewModel())
     }
 }

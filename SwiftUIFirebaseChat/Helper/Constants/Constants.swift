@@ -14,3 +14,7 @@ struct Constants {
    static let email = "Email"
    static let password = "Password"
 }
+
+struct FirebaseCollectionRef {
+    static let users = "users"
+}
