@@ -19,6 +19,7 @@ protocol FirebaseManagerProtocol {
     func downloadImageURL(completion:@escaping(URL?,Error?) -> Void)
     func storeUser(info:JSON,completion:@escaping(Error?) -> Void)
     func fetchCurrentUser() async throws -> User
+    func fetchAllUsers() async throws -> [User]
     var currentUserId: String? {get}
     func signOut() throws
 }
@@ -84,8 +85,7 @@ final class FirebaseManager:NSObject,FirebaseManagerProtocol,ObservableObject {
             let document =  try await documentRef.getDocument()
             if let json = document.data() {
                 do {
-                    let data = try json.toData()
-                    let user = try JSONDecoder().decode(User.self, from: data)
+                    let user = try JSONParser<User>().parseToModel(from: json)
                     return user
                 }
             }
@@ -95,11 +95,35 @@ final class FirebaseManager:NSObject,FirebaseManagerProtocol,ObservableObject {
         return User()
     }
     
+    func fetchAllUsers() async throws -> [User] {
+        let collectionRef = firestore.collection(FirebaseCollectionRef.users)
+        let documentSnapshot = try await collectionRef.getDocuments()
+        do {
+            var users:[User] = []
+            try documentSnapshot.documents.forEach({ document in
+                let json = document.data()
+                let user = try JSONParser<User>().parseToModel(from: json)
+                if !isActive(user: user) {
+                    users.append(user)
+                }
+            })
+            return users
+        }catch {
+            throw error
+        }
+    }
+    
     func signOut() throws {
         do {
             try self.auth.signOut()
         }catch {
             throw error
         }
+    }
+}
+
+extension FirebaseManager {
+    func isActive(user:User) -> Bool {
+        return currentUserId == user.id
     }
 }

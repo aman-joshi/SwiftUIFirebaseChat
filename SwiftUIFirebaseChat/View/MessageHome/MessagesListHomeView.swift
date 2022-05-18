@@ -43,8 +43,8 @@ struct MessagesListHomeView: View {
     
     fileprivate func listView() -> some View {
         return ScrollView {
-            ForEach(0..<10,id:\.self) { _ in
-                MessageCellView()
+            ForEach(0..<10,id:\.self) { id in
+                MessageCellView(user: User(email: "dummy@gmail.com", profileImageUrl: "", id: "\(id)"),showUsersOnly: false)
             }
         }.padding(.bottom,50)
     }
@@ -67,7 +67,7 @@ struct MessagesListHomeView: View {
             .shadow(radius: 15)
         }
         .fullScreenCover(isPresented: $shouldShowNewMessageScreen) {
-            NewMessageView()
+            NewMessageView(viewModel: NewMessageViewModel(firebaseManager: viewModel.firebaseManager))
         }
     }
 }

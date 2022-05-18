@@ -6,33 +6,39 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct MessageCellView: View {
+    
+    var user:User
+    var showUsersOnly = true
+    
     var body: some View {
         VStack {
             HStack(spacing:16) {
-                Image(systemName: "person.fill")
-                    .font(.system(size: 32))
-                    .padding(8)
-                    .addOverlay(radius: 44)
+                WebImage(url: URL(string: user.profileImageUrl))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 50, height: 50)
+                    .clipped()
+                    .cornerRadius(50)
+                    .addOverlay(radius: 50)
                 VStack(alignment:.leading) {
-                    Text("Username")
+                    Text(user.email)
                         .font(.system(size: AppFont.FontSize.medium,weight: .bold))
-                    Text("Message sent to user")
-                        .font(.system(size: AppFont.FontSize.small))
-                        .foregroundColor(AppColor.lightGray)
+                    if !showUsersOnly {
+                        Text("Message sent to user")
+                            .font(.system(size: AppFont.FontSize.small))
+                            .foregroundColor(AppColor.lightGray)
+                    }
                 }
                 Spacer()
-                Text("22d").font(.system(size: AppFont.FontSize.small,weight: .semibold))
+                if !showUsersOnly {
+                    Text("22d").font(.system(size: AppFont.FontSize.small,weight: .semibold))
+                }
             }
             Divider()
                 .padding(.vertical,8)
         }.padding(.horizontal)
-    }
-}
-
-struct MessageCellView_Previews: PreviewProvider {
-    static var previews: some View {
-        MessageCellView()
     }
 }

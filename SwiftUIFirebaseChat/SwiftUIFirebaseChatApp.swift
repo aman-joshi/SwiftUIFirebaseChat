@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct SwiftUIFirebaseChatApp: App {
-    private let firebaseManager:FirebaseManager
+    private let firebaseManager:FirebaseManagerProtocol
     
     init() {
         firebaseManager = FirebaseManager()

@@ -9,13 +9,14 @@ import SwiftUI
 
 struct NewMessageView: View {
     
+    @ObservedObject var viewModel:NewMessageViewModel
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
             ScrollView {
-                ForEach(0..<10) { _ in
-                    MessageCellView()
+                ForEach(viewModel.users) { user in
+                    MessageCellView(user: user)
                 }
             }.navigationBarTitle("New Message")
                 .toolbar {
@@ -27,6 +28,8 @@ struct NewMessageView: View {
                         }
                     }
                 }
+        }.onAppear {
+            viewModel.fetchAllUsers()
         }
     }
 }

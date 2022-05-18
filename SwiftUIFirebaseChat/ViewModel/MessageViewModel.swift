@@ -9,7 +9,7 @@ import Foundation
 
 class MessageViewModel:ObservableObject {
     
-    var firebaseManager:FirebaseManagerProtocol
+    private(set) var firebaseManager:FirebaseManagerProtocol
     @Published var user:User = User()
     @Published var errorMsg = ""
     @Published var isSignOut = false

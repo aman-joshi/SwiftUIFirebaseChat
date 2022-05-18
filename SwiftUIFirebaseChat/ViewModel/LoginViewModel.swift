@@ -64,7 +64,7 @@ class LoginViewModel:ObservableObject {
     
     func createUserData(withEmail email:String,profileImageUrl:URL) -> JSON? {
         guard let uid = firebaseManager.currentUserId else {return nil}
-        let userInfo = ["email":email,"uid":uid,"profileImageUrl":profileImageUrl.absoluteString]
+        let userInfo = ["email":email,"id":uid,"profileImageUrl":profileImageUrl.absoluteString]
         return userInfo
     }
     

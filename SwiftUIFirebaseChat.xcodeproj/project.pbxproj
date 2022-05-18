@@ -31,6 +31,7 @@
 		3F859A00282DF7280054DC81 /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8599FF282DF7280054DC81 /* AppFont.swift */; };
 		3F859A02282DF8790054DC81 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F859A01282DF8790054DC81 /* AppColor.swift */; };
 		3F859A04282DFF8C0054DC81 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F859A03282DFF8C0054DC81 /* CustomNavBar.swift */; };
+		3F967DFB28349145006AEA50 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F967DFA28349145006AEA50 /* JSONParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		3F8599FF282DF7280054DC81 /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		3F859A01282DF8790054DC81 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		3F859A03282DFF8C0054DC81 /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
+		3F967DFA28349145006AEA50 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				3F5AF6F528309ECB00651745 /* JSON.swift */,
+				3F967DFA28349145006AEA50 /* JSONParser.swift */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 			files = (
 				3F5AF6F328309CAF00651745 /* User.swift in Sources */,
 				3F5AF6F628309ECB00651745 /* JSON.swift in Sources */,
+				3F967DFB28349145006AEA50 /* JSONParser.swift in Sources */,
 				3F8599FD282DEE4C0054DC81 /* MessageCellView.swift in Sources */,
 				3F7395EA2831E16A008C9BF7 /* OverlayModifier.swift in Sources */,
 				3F859A04282DFF8C0054DC81 /* CustomNavBar.swift in Sources */,
