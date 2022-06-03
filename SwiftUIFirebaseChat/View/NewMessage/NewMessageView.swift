@@ -11,12 +11,18 @@ struct NewMessageView: View {
     
     @ObservedObject var viewModel:NewMessageViewModel
     @Environment(\.presentationMode) var presentationMode
+    let didSelectUser:(User) -> ()
     
     var body: some View {
         NavigationView {
             ScrollView {
                 ForEach(viewModel.users) { user in
-                    MessageCellView(user: user)
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                        didSelectUser(user)
+                    } label: {
+                        MessageCellView(user: user)
+                    }
                 }
             }.navigationBarTitle("New Message")
                 .toolbar {

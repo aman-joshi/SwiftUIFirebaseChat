@@ -10,8 +10,10 @@ import SwiftUI
 struct MessagesListHomeView: View {
     
     @ObservedObject var viewModel:MessageViewModel
-    @State var showLogoutOption:Bool = false
-    @State var shouldShowNewMessageScreen:Bool = false
+    @State private var showLogoutOption:Bool = false
+    @State private var shouldShowNewMessageScreen:Bool = false
+    @State private var chatUser:User?
+    @State private var shouldShowChatLog:Bool = false
     
     var body: some View {
         if viewModel.isSignOut {
@@ -32,6 +34,11 @@ struct MessagesListHomeView: View {
                             ])
                         }
                     listView()
+                    NavigationLink("", isActive: $shouldShowChatLog) {
+                        if chatUser != nil {
+                            ChatLogView(user: chatUser!)
+                        }
+                    }
                 }.overlay(newMessageButton(),alignment: .bottom)
                 .navigationBarHidden(true)
             }.onAppear {
@@ -44,7 +51,11 @@ struct MessagesListHomeView: View {
     fileprivate func listView() -> some View {
         return ScrollView {
             ForEach(0..<10,id:\.self) { id in
-                MessageCellView(user: User(email: "dummy@gmail.com", profileImageUrl: "", id: "\(id)"),showUsersOnly: false)
+                NavigationLink {
+                    Text("Chat Log")
+                } label: {
+                    MessageCellView(user: User(email: "dummy@gmail.com", profileImageUrl: "", id: "\(id)"),showUsersOnly: false)
+                }
             }
         }.padding(.bottom,50)
     }
@@ -67,7 +78,11 @@ struct MessagesListHomeView: View {
             .shadow(radius: 15)
         }
         .fullScreenCover(isPresented: $shouldShowNewMessageScreen) {
-            NewMessageView(viewModel: NewMessageViewModel(firebaseManager: viewModel.firebaseManager))
+            NewMessageView(viewModel: NewMessageViewModel(firebaseManager: viewModel.firebaseManager)) { user in
+                print(user.email)
+                self.chatUser = user
+                shouldShowChatLog.toggle()
+            }
         }
     }
 }
